@@ -1,6 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import searchIcon from "../../assets/icons/search-icon.svg";
 import accountIcon from "../../assets/icons/person-icon.svg";
@@ -12,7 +11,6 @@ const url = process.env.REACT_APP_BASE_URL;
 
 const Header = ({ userId }) => {
   const [isTyping, setIsTyping] = useState(false);
-  const loggedIn = useAuth();
   const userNameRef = useRef(null);
   const [displayName, setDisplayName] = useState("");
 
@@ -23,7 +21,7 @@ const Header = ({ userId }) => {
     return context.measureText(text).width;
   };
 
-  const formatUserName = (firstName, lastName) => {
+  const formatUserName = useCallback((firstName, lastName) => {
     const fullName = `${firstName} ${lastName}`;
     const containerWidth = 60; // Fixed width of the container in px
 
@@ -34,14 +32,14 @@ const Header = ({ userId }) => {
       const adjustedName = `${firstName} ${lastInitial}`;
       setDisplayName(adjustedName);
     }
-  };
+  }, []);
 
   useEffect(() => {
     const fetchUserData = async () => {
       const token = localStorage.getItem("jwt"); // Check the token
       console.log("Token in Header:", token); // Debug log for token
       console.log("LoggedIn:", true, "UserId:", userId); // Force LoggedIn to true
-      if (true && userId) {
+      if (userId) {
         try {
           const response = await axios.get(`${url}/dashboard/${userId}`, {
             headers: {
@@ -56,7 +54,7 @@ const Header = ({ userId }) => {
     };
 
     fetchUserData();
-  }, [userId]);
+  }, [userId, formatUserName]);
 
   return (
     <header className="header-bar">

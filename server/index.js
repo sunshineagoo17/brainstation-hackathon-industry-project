@@ -18,17 +18,6 @@ const dataRoutes = require('./routes/data');
 // Load environment variables
 const { CORS_ORIGIN, DATA_DIR, DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, NODE_ENV } = process.env;
 
-// Log the loaded environment variables to ensure they're correct
-console.log('Loaded environment variables:', {
-  CORS_ORIGIN,
-  DATA_DIR,
-  DB_HOST,
-  DB_USER,
-  DB_PASSWORD,
-  DB_NAME,
-  NODE_ENV
-});
-
 // Enable CORS for all routes if the module is loaded
 app.use(cors({
   origin: CORS_ORIGIN,
