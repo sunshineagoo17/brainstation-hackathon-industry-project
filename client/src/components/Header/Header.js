@@ -16,42 +16,47 @@ const Header = ({ userId }) => {
   const userNameRef = useRef(null);
   const [displayName, setDisplayName] = useState("");
 
+  const calculateTextWidth = (text) => {
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    context.font = "400 0.83rem Arial"; // Match the font properties
+    return context.measureText(text).width;
+  };
+
+  const formatUserName = (firstName, lastName) => {
+    const fullName = `${firstName} ${lastName}`;
+    const containerWidth = 60; // Fixed width of the container in px
+
+    if (calculateTextWidth(fullName) <= containerWidth) {
+      setDisplayName(fullName);
+    } else {
+      const lastInitial = `${lastName.charAt(0)}.`;
+      const adjustedName = `${firstName} ${lastInitial}`;
+      setDisplayName(adjustedName);
+    }
+  };
+
   useEffect(() => {
     const fetchUserData = async () => {
-      if (loggedIn && userId) {
+      const token = localStorage.getItem("jwt"); // Check the token
+      console.log("Token in Header:", token); // Debug log for token
+      console.log("LoggedIn:", true, "UserId:", userId); // Force LoggedIn to true
+      if (true && userId) {
         try {
-          const response = await axios.get(`${url}/dashboard/${userId}`);
+          const response = await axios.get(`${url}/dashboard/${userId}`, {
+            headers: {
+              Authorization: `Bearer ${token}` // Pass the token with the request
+            }
+          });
           formatUserName(response.data.first_name, response.data.last_name);
         } catch (error) {
           console.error(`Error fetching user data: ${error.message}`);
         }
-      } else {
-        console.log('LoggedIn:', loggedIn, 'UserId:', userId);
       }
     };
-
-    const calculateTextWidth = (text) => {
-      const canvas = document.createElement("canvas");
-      const context = canvas.getContext("2d");
-      context.font = "400 0.83rem Arial"; // Match the font properties
-      return context.measureText(text).width;
-    };
-
-    const formatUserName = (firstName, lastName) => {
-      const fullName = `${firstName} ${lastName}`;
-      const containerWidth = 60; // Fixed width of the container in px
-
-      if (calculateTextWidth(fullName) <= containerWidth) {
-        setDisplayName(fullName);
-      } else {
-        const lastInitial = `${lastName.charAt(0)}.`;
-        const adjustedName = `${firstName} ${lastInitial}`;
-        setDisplayName(adjustedName);
-      }
-    };
-
+  
     fetchUserData();
-  }, [userId, loggedIn]);
+  }, [userId]);  
 
   return (
     <header className="header-bar">
