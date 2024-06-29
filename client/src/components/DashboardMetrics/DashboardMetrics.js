@@ -18,6 +18,7 @@ const DashboardMetrics = () => {
   const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [userName, setUserName] = useState(""); 
 
   const truncateName = (name, maxLength = 20) => {
     return name.length > maxLength ? `${name.substring(0, maxLength)}...` : name;
@@ -35,6 +36,8 @@ const DashboardMetrics = () => {
 
         if (!response.data) {
           navigate("/auth");
+        } else {
+          setUserName(response.data.first_name); // Store user's first name
         }
       } catch (error) {
         console.error("Error fetching user:", error);
@@ -309,7 +312,7 @@ const DashboardMetrics = () => {
 
           <div className="dashboard-widget__heading">
             <div className="dashboard-heading__content">
-              <h1 className="dashboard-heading__content--heading">Welcome back, Ali!</h1>
+              <h1 className="dashboard-heading__content--heading">Welcome back, {userName}!</h1> {/* Use the fetched user's name */}
               <span className="dashboard-heading__content--date">{currentDate}</span>
             </div>
             <h2 className="dashboard-widget__heading--directions">
