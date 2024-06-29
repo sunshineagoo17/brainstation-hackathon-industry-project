@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import Api from "../../api/Api";
+import useAuth from "../../hooks/useAuth"; // Import the hook
 import "./LoginForm.scss";
 
 const LoginForm = () => {
@@ -12,6 +13,13 @@ const LoginForm = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const loggedIn = useAuth(); // Use the hook
+
+  useEffect(() => {
+    if (loggedIn) {
+      navigate(`/dashboard`);
+    }
+  }, [loggedIn, navigate]);
 
   const handleInput = (event) => {
     const { name, value } = event.target;
@@ -48,6 +56,7 @@ const LoginForm = () => {
         if (success) {
           localStorage.setItem("jwt", token);
           navigate(`/dashboard/${userId}`);
+          window.location.reload(); // Reload to update the logged-in state
         } else {
           setErrors({ form: message });
         }
@@ -64,7 +73,7 @@ const LoginForm = () => {
     }
   };
 
-  const handleShowPassword = async (event) => {
+  const handleShowPassword = (event) => {
     event.preventDefault();
     setShowPassword(!showPassword);
   };
@@ -118,10 +127,7 @@ const LoginForm = () => {
       >
         Forgot Password?
       </a>
-      <button
-        className="login-form__submit"
-        type="submit"
-      >
+      <button className="login-form__submit" type="submit">
         <span className="login-button__text">Sign In</span>
       </button>
     </form>

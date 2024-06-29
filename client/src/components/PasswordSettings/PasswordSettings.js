@@ -6,12 +6,12 @@ import UpdateButtons from "../UpdateButtons/UpdateButtons";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import "./PasswordSettings.scss";
 
-// Base Url
+// Base URL from environment variables
 const url = process.env.REACT_APP_BASE_URL;
 
 const PasswordSettings = () => {
-  const [errors, setErrors] = useState(true);
-  const [showPassword, setShowPassword] = useState();
+  const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState({});
   const [formValues, setFormValues] = useState({
     current_password: "",
@@ -21,6 +21,12 @@ const PasswordSettings = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
   const loggedIn = useAuth();
+
+  useEffect(() => {
+    if (!loggedIn) {
+      navigate("/login");
+    }
+  }, [loggedIn, navigate]);
 
   const handleInput = (event) => {
     const { name, value } = event.target;
@@ -36,18 +42,22 @@ const PasswordSettings = () => {
 
   const validate = () => {
     let formErrors = {};
-    if (!formValues.current_password)
+    if (!formValues.current_password) {
       formErrors.current_password = "Current Password is required.";
-    if (!formValues.new_password)
+    }
+    if (!formValues.new_password) {
       formErrors.new_password = "New Password is required.";
-    if (!formValues.confirm_password)
+    }
+    if (!formValues.confirm_password) {
       formErrors.confirm_password = "Please Confirm your New Password.";
-    if (formValues.new_password !== formValues.confirm_password)
+    }
+    if (formValues.new_password !== formValues.confirm_password) {
       formErrors.confirm_password = "Passwords do not match.";
+    }
     return formErrors;
   };
 
-  const handleShowPassword = async (event) => {
+  const handleShowPassword = (event) => {
     event.preventDefault();
     setShowPassword(!showPassword);
   };
@@ -62,9 +72,19 @@ const PasswordSettings = () => {
           current_password: formValues.current_password,
           new_password: formValues.new_password,
         };
+        
+        // Get the JWT token from local storage
+        const token = localStorage.getItem("jwt");
+        
+        // Include the token in the headers
         const response = await axios.put(
           `${url}/dashboard/${userId}/password`,
-          updatePayload
+          updatePayload,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
         );
 
         if (response.data.success) {
@@ -74,6 +94,7 @@ const PasswordSettings = () => {
           setErrors({ form: response.data.message });
         }
       } catch (error) {
+        console.error("Error updating password:", error);
         setErrors({ form: "Unable to Update Password." });
       }
     }
@@ -82,7 +103,17 @@ const PasswordSettings = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`${url}/dashboard/${userId}`);
+        // Get the JWT token from local storage
+        const token = localStorage.getItem("jwt");
+
+        const response = await axios.get(
+          `${url}/dashboard/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
 
         if (response.data) {
           setUser(response.data);
@@ -93,7 +124,7 @@ const PasswordSettings = () => {
     };
 
     fetchUser();
-  }, [loggedIn, userId, navigate]);
+  }, [userId]);
 
   return (
     <>

@@ -1,10 +1,21 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import RegisterForm from "../../components/RegisterForm/RegisterForm";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import spectraLogo from "../../assets/images/logos/dell-spectra-logo-dark.svg";
+import useAuth from "../../hooks/useAuth"; // Import the useAuth hook
 import "./AuthPage.scss";
 
 export const AuthPage = () => {
+  const navigate = useNavigate();
+  const loggedIn = useAuth(); // Use the useAuth hook
+
+  useEffect(() => {
+    if (loggedIn) {
+      navigate("/dashboard");
+    }
+  }, [loggedIn, navigate]);
+
   return (
     <div className="auth-page">
       <div className="login-wrapper">
