@@ -1,7 +1,7 @@
 const cron = require('node-cron');
 const { exec } = require('child_process');
 const path = require('path');
-require('dotenv').config();
+require('dotenv').config({ path: path.resolve(__dirname, '.env') }); 
 
 const scriptsDir = path.join(__dirname, 'scripts');
 
@@ -47,6 +47,9 @@ function runAllScriptsSequentially() {
 
 // Function to commit and push changes to GitHub
 function pushChangesToGitHub() {
+    const GITHUB_PAT = process.env.GITHUB_PAT; 
+    const REPO_URL = `https://${GITHUB_PAT}@github.com/sunshineagoo17/spectra-dell-industry-project.git`;
+
     exec('git add .', (err, stdout, stderr) => {
         if (err) {
             console.error(`Error adding files to Git: ${stderr}`);
@@ -57,7 +60,7 @@ function pushChangesToGitHub() {
                 console.error(`Error committing files to Git: ${stderr}`);
                 return;
             }
-            exec('git push origin main', (err, stdout, stderr) => {
+            exec(`git push ${REPO_URL} main`, (err, stdout, stderr) => {
                 if (err) {
                     console.error(`Error pushing to GitHub: ${stderr}`);
                     return;
