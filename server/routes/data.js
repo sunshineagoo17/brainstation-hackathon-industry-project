@@ -2,23 +2,42 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const csvtojson = require('csvtojson');
+const fs = require('fs');
 require('dotenv').config();
 
 // Load environment variables
 const DATA_DIR = path.resolve(__dirname, '../scripts/data');
 
-// Function to get the current date in the desired format
-function getCurrentDate() {
-  const current_time = new Date();
-  return `${current_time.getFullYear()}${String(current_time.getMonth() + 1).padStart(2, '0')}${String(current_time.getDate()).padStart(2, '0')}`;
+// Function to get the most recent file matching a pattern
+function getMostRecentFile(dir, filePattern) {
+  const files = fs.readdirSync(dir);
+  const matchingFiles = files.filter(file => file.startsWith(filePattern) && file.endsWith('.csv'));
+
+  if (matchingFiles.length === 0) {
+    return null;
+  }
+
+  const sortedFiles = matchingFiles.sort((a, b) => {
+    const dateA = a.split('_').pop().split('.').shift();
+    const dateB = b.split('_').pop().split('.').shift();
+    return dateB.localeCompare(dateA);
+  });
+
+  return sortedFiles[0];
 }
 
 // Endpoint to fetch dashboard data
 router.get('/dashboard', async (req, res) => {
-  const date = getCurrentDate();
   try {
-    const bestbuyFilePath = path.join(DATA_DIR, `bestbuy_comparison_${date}.csv`);
-    const neweggFilePath = path.join(DATA_DIR, `newegg_comparison_${date}.csv`);
+    const bestbuyFile = getMostRecentFile(DATA_DIR, 'bestbuy_comparison');
+    const neweggFile = getMostRecentFile(DATA_DIR, 'newegg_comparison');
+
+    if (!bestbuyFile || !neweggFile) {
+      return res.status(404).json({ message: 'One or more data files not found.' });
+    }
+
+    const bestbuyFilePath = path.join(DATA_DIR, bestbuyFile);
+    const neweggFilePath = path.join(DATA_DIR, neweggFile);
 
     const [bestbuyData, neweggData] = await Promise.all([
       csvtojson().fromFile(bestbuyFilePath),

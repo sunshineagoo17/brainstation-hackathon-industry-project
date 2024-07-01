@@ -34,26 +34,38 @@ app.use('/api/products', productsRoutes);
 app.use('/api/retailers', retailersRoutes);
 app.use('/api/data', dataRoutes);
 
-// Function to get the current date in the desired format
-function getCurrentDate() {
-  const current_time = new Date();
-  return `${current_time.getFullYear()}${String(current_time.getMonth() + 1).padStart(2, '0')}${String(current_time.getDate()).padStart(2, '0')}`;
+// Function to get the most recent file matching a pattern
+function getMostRecentFile(dir, filePattern) {
+  const files = fs.readdirSync(dir);
+  const matchingFiles = files.filter(file => file.startsWith(filePattern) && file.endsWith('.csv'));
+
+  if (matchingFiles.length === 0) {
+    return null;
+  }
+
+  const sortedFiles = matchingFiles.sort((a, b) => {
+    const dateA = a.split('_').pop().split('.').shift();
+    const dateB = b.split('_').pop().split('.').shift();
+    return dateB.localeCompare(dateA);
+  });
+
+  return sortedFiles[0];
 }
 
 // Data Fetch Endpoints
 const createDataEndpoint = (route, filePattern) => {
   router.get(route, async (req, res) => {
-    const date = getCurrentDate();
-    const filePath = path.join(DATA_DIR, `${filePattern}_${date}.csv`);
+    const fileName = getMostRecentFile(DATA_DIR, filePattern);
+    if (!fileName) {
+      const errorMessage = `No files found matching pattern: ${filePattern}`;
+      console.error(errorMessage);
+      return res.status(404).json({ message: errorMessage });
+    }
 
+    const filePath = path.join(DATA_DIR, fileName);
     console.log(`Fetching data from: ${filePath}`); // Debug log
 
     try {
-      if (!fs.existsSync(filePath)) {
-        console.error(`File does not exist: ${filePath}`);
-        return res.status(404).json({ message: `File does not exist: ${filePath}` });
-      }
-
       const data = await csvtojson().fromFile(filePath);
       console.log(`Number of items in ${filePath}: ${data.length}`);
       if (!Array.isArray(data)) {

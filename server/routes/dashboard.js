@@ -2,24 +2,30 @@ const express = require("express");
 const router = express.Router();
 const csvtojson = require("csvtojson");
 const path = require("path");
+const fs = require("fs");
 const bcrypt = require("bcrypt");
 const knex = require("../knex");
 
 // Define paths to your CSV files
 const DATA_DIR = path.resolve(__dirname, "../scripts/data");
 
-// Function to get the current date in the desired format (YYYYMMDD)
-function getCurrentDate() {
-  const current_time = new Date();
-  return `${current_time.getFullYear()}${String(current_time.getMonth() + 1).padStart(2, '0')}${String(current_time.getDate()).padStart(2, '0')}`;
+// Function to get the most recent file matching a pattern
+function getMostRecentFile(dir, filePattern) {
+  const files = fs.readdirSync(dir);
+  const matchingFiles = files.filter(file => file.startsWith(filePattern) && file.endsWith('.csv'));
+
+  if (matchingFiles.length === 0) {
+    return null;
+  }
+
+  const sortedFiles = matchingFiles.sort((a, b) => {
+    const dateA = a.split('_').pop().split('.').shift();
+    const dateB = b.split('_').pop().split('.').shift();
+    return dateB.localeCompare(dateA);
+  });
+
+  return sortedFiles[0];
 }
-
-// Get the current date
-const currentDate = getCurrentDate();
-
-// Updated paths to include current date in filenames
-const BESTBUY_CSV = path.join(DATA_DIR, `bestbuy_comparison_${currentDate}.csv`);
-const NEWEGG_CSV = path.join(DATA_DIR, `newegg_comparison_${currentDate}.csv`);
 
 // Get the user ID when authorized
 router
@@ -73,10 +79,21 @@ router
 // Endpoint to fetch data and calculate metrics
 router.get("/retailer-metrics", async (req, res) => {
   try {
+    // Get the most recent files
+    const bestbuyFile = getMostRecentFile(DATA_DIR, 'bestbuy_comparison');
+    const neweggFile = getMostRecentFile(DATA_DIR, 'newegg_comparison');
+
+    if (!bestbuyFile || !neweggFile) {
+      return res.status(404).json({ message: 'One or more data files not found.' });
+    }
+
+    const bestbuyFilePath = path.join(DATA_DIR, bestbuyFile);
+    const neweggFilePath = path.join(DATA_DIR, neweggFile);
+
     // Fetch data from CSV files
     const [bestbuyData, neweggData] = await Promise.all([
-      csvtojson().fromFile(BESTBUY_CSV),
-      csvtojson().fromFile(NEWEGG_CSV),
+      csvtojson().fromFile(bestbuyFilePath),
+      csvtojson().fromFile(neweggFilePath),
     ]);
 
     // Calculate metrics for BestBuy

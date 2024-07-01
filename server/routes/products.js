@@ -8,10 +8,22 @@ require('dotenv').config();
 // Load environment variables
 const DATA_DIR = path.resolve(__dirname, '../scripts/data');
 
-// Function to get the current date in the desired format
-function getCurrentDate() {
-  const current_time = new Date();
-  return `${current_time.getFullYear()}${String(current_time.getMonth() + 1).padStart(2, '0')}${String(current_time.getDate()).padStart(2, '0')}`;
+// Function to get the most recent file matching a pattern
+function getMostRecentFile(dir, filePattern) {
+  const files = fs.readdirSync(dir);
+  const matchingFiles = files.filter(file => file.startsWith(filePattern) && file.endsWith('.csv'));
+
+  if (matchingFiles.length === 0) {
+    return null;
+  }
+
+  const sortedFiles = matchingFiles.sort((a, b) => {
+    const dateA = a.split('_').pop().split('.').shift();
+    const dateB = b.split('_').pop().split('.').shift();
+    return dateB.localeCompare(dateA);
+  });
+
+  return sortedFiles[0];
 }
 
 // Utility function to fetch data from a CSV file
@@ -24,10 +36,12 @@ const fetchDataFromFile = async (filePath) => {
 
 // Endpoint to fetch Dell data
 router.get('/dell', async (req, res) => {
-  const date = getCurrentDate();
-  const dellFilePath = path.join(DATA_DIR, `official_dell_monitor_${date}.csv`);
-
   try {
+    const dellFile = getMostRecentFile(DATA_DIR, 'official_dell_monitor');
+    if (!dellFile) {
+      return res.status(404).json({ message: 'Dell data file not found.' });
+    }
+    const dellFilePath = path.join(DATA_DIR, dellFile);
     const dellData = await fetchDataFromFile(dellFilePath);
     console.log('Fetched Dell Data:', dellData);
     res.json(Array.isArray(dellData) ? dellData : []);
@@ -39,10 +53,12 @@ router.get('/dell', async (req, res) => {
 
 // Endpoint to fetch BestBuy comparison data
 router.get('/compare/dell-bestbuy', async (req, res) => {
-  const date = getCurrentDate();
-  const bestbuyFilePath = path.join(DATA_DIR, `bestbuy_comparison_${date}.csv`);
-
   try {
+    const bestbuyFile = getMostRecentFile(DATA_DIR, 'bestbuy_comparison');
+    if (!bestbuyFile) {
+      return res.status(404).json({ message: 'BestBuy data file not found.' });
+    }
+    const bestbuyFilePath = path.join(DATA_DIR, bestbuyFile);
     const bestbuyData = await fetchDataFromFile(bestbuyFilePath);
     console.log('Fetched BestBuy Data:', bestbuyData);
     res.json(Array.isArray(bestbuyData) ? bestbuyData : []);
@@ -54,10 +70,12 @@ router.get('/compare/dell-bestbuy', async (req, res) => {
 
 // Endpoint to fetch Newegg comparison data
 router.get('/compare/dell-newegg', async (req, res) => {
-  const date = getCurrentDate();
-  const neweggFilePath = path.join(DATA_DIR, `newegg_comparison_${date}.csv`);
-
   try {
+    const neweggFile = getMostRecentFile(DATA_DIR, 'newegg_comparison');
+    if (!neweggFile) {
+      return res.status(404).json({ message: 'Newegg data file not found.' });
+    }
+    const neweggFilePath = path.join(DATA_DIR, neweggFile);
     const neweggData = await fetchDataFromFile(neweggFilePath);
     console.log('Fetched Newegg Data:', neweggData);
     res.json(Array.isArray(neweggData) ? neweggData : []);
@@ -69,12 +87,19 @@ router.get('/compare/dell-newegg', async (req, res) => {
 
 // Endpoint to fetch all products data
 router.get('/', async (req, res) => {
-  const date = getCurrentDate();
-  const dellFilePath = path.join(DATA_DIR, `official_dell_monitor_${date}.csv`);
-  const bestbuyFilePath = path.join(DATA_DIR, `bestbuy_comparison_${date}.csv`);
-  const neweggFilePath = path.join(DATA_DIR, `newegg_comparison_${date}.csv`);
-
   try {
+    const dellFile = getMostRecentFile(DATA_DIR, 'official_dell_monitor');
+    const bestbuyFile = getMostRecentFile(DATA_DIR, 'bestbuy_comparison');
+    const neweggFile = getMostRecentFile(DATA_DIR, 'newegg_comparison');
+
+    if (!dellFile || !bestbuyFile || !neweggFile) {
+      return res.status(404).json({ message: 'One or more data files not found.' });
+    }
+
+    const dellFilePath = path.join(DATA_DIR, dellFile);
+    const bestbuyFilePath = path.join(DATA_DIR, bestbuyFile);
+    const neweggFilePath = path.join(DATA_DIR, neweggFile);
+
     const [dellData, bestbuyData, neweggData] = await Promise.all([
       fetchDataFromFile(dellFilePath),
       fetchDataFromFile(bestbuyFilePath),
