@@ -36,6 +36,7 @@ function runAllScriptsSequentially() {
                         runPythonScript('product_page.py', (err) => {
                             if (err) return;
                             console.log('All scripts executed successfully');
+                            pushChangesToGitHub(); // Add this to push changes after all scripts run
                         });
                     });
                 });
@@ -44,9 +45,35 @@ function runAllScriptsSequentially() {
     });
 }
 
-// Schedule all scripts to run at midnight
+// Function to commit and push changes to GitHub
+function pushChangesToGitHub() {
+    exec('git add .', (err, stdout, stderr) => {
+        if (err) {
+            console.error(`Error adding files to Git: ${stderr}`);
+            return;
+        }
+        exec('git commit -m "Update CSV files"', (err, stdout, stderr) => {
+            if (err) {
+                console.error(`Error committing files to Git: ${stderr}`);
+                return;
+            }
+            exec('git push origin main', (err, stdout, stderr) => {
+                if (err) {
+                    console.error(`Error pushing to GitHub: ${stderr}`);
+                    return;
+                }
+                console.log('Changes pushed to GitHub successfully!');
+            });
+        });
+    });
+}
+
+// Schedule all scripts to run at midnight in Toronto (Eastern Time)
 cron.schedule('0 0 * * *', () => {
     runAllScriptsSequentially();
+}, {
+    scheduled: true,
+    timezone: "America/Toronto"
 });
 
-console.log('Scrapers and comparison scripts scheduled to run at midnight.');
+console.log('Scrapers and comparison scripts scheduled to run at midnight Toronto time.');
