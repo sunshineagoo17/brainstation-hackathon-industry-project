@@ -41,10 +41,6 @@ bower_components/
 client/.env
 server/.env
 
-env
-client/env
-server/env
-
 # MacOS files
 .DS_Store
 
