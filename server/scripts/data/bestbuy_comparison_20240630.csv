@@ -1,10 +1,11 @@
 Dell_product,Dell_price,Bestbuy_price,Deviation,Status
-Dell 24 Monitor – E2423H,174.99,122.97,-29.727412995028292,Non-Compliant
-Dell UltraSharp 27 Monitor - U2724D,509.99,450.97,-11.57277593678307,Non-Compliant
+Dell 22 Monitor - E2222H,139.99,119.99,-14.286734766769063,Non-Compliant
+Dell 24 Monitor - P2422H,249.99,219.99,-12.000480019200769,Non-Compliant
+Dell UltraSharp 27 Monitor - U2724D,509.99,463.97,-9.023706347183275,Needs Attention
 Dell 24 Monitor - P2423D,419.99,389.99,-7.1430272149336895,Needs Attention
-Dell 24 Monitor - P2422H,234.99,219.99,-6.383250351078769,Needs Attention
-Dell 22 Monitor - E2222H,139.99,135.0,-3.5645403243088856,Needs Attention
+Dell 22 Monitor - P2222H,214.99,214.99,0.0,Compliant
 Dell 24 USB-C® Hub Monitor - P2425E,519.99,519.99,0.0,Compliant
+Dell 24 Monitor – E2423H,174.99,174.99,0.0,Compliant
 Dell 24 Touch USB-C Hub Monitor - P2424HT,549.99,549.99,0.0,Compliant
 Alienware 27 360Hz QD-OLED Gaming Monitor - AW2725DF,899.99,899.99,0.0,Compliant
 Dell UltraSharp 27 Thunderbolt™ Hub Monitor - U2724DE,654.99,654.99,0.0,Compliant
@@ -13,52 +14,53 @@ Dell 34 Curved Monitor - P3424WE,909.99,909.99,0.0,Compliant
 Dell 34 Curved Video Conferencing Monitor - P3424WEB,999.99,999.99,0.0,Compliant
 Dell 27 Video Conferencing Monitor - P2724DEB,659.99,659.99,0.0,Compliant
 Dell UltraSharp 24 USB-C® Hub Monitor - U2424HE,449.99,449.99,0.0,Compliant
-Dell 22 Monitor - P2222H,204.99,204.99,0.0,Compliant
 Alienware 27 Gaming Monitor - AW2724DM,499.99,499.99,0.0,Compliant
 Dell 24 Monitor - P2425,429.99,429.99,0.0,Compliant
-Dell 27 Monitor - S2725HS,189.99,189.99,0.0,Compliant
+Dell 27 Monitor - S2725HS,209.99,209.99,0.0,Compliant
 Dell 27 Monitor - P2725H,309.99,309.99,0.0,Compliant
 Dell 55 4K Interactive Touch Monitor - P5524QT,3719.99,3719.99,0.0,Compliant
 Dell 27 USB-C® Hub Monitor - P2725HE,399.99,399.99,0.0,Compliant
 Dell 22 Monitor - P2225H,214.99,214.99,0.0,Compliant
 Dell UltraSharp 34 Curved Thunderbolt™  Hub Monitor - U3425WE,1049.99,1049.99,0.0,Compliant
 Dell 24 Monitor - S2425H,149.99,149.99,0.0,Compliant
+Dell 24 Monitor - S2425HS,169.99,169.99,0.0,Compliant
 Dell 24 Monitor - P2425H,249.99,249.99,0.0,Compliant
 Dell 24 USB-C® Hub Monitor - P2425HE,354.99,354.99,0.0,Compliant
+Dell 27 Monitor - S2725H,189.99,189.99,0.0,Compliant
 Dell UltraSharp 38 Curved USB-C Hub Monitor - U3824DW,1559.99,1559.99,0.0,Compliant
 Dell UltraSharp 49 Curved USB-C Hub Monitor - U4924DW,1739.99,1739.99,0.0,Compliant
 Alienware 27 Gaming Monitor - AW2724HF,399.99,399.99,0.0,Compliant
 Alienware 500Hz Gaming Monitor - AW2524H,1029.99,1029.99,0.0,Compliant
-Dell UltraSharp 32 4K Video Conferencing Monitor - U3223QZ,1464.99,1464.99,0.0,Compliant
-Dell 27 4K USB-C Hub Monitor - P2723QE,609.99,609.99,0.0,Compliant
-Dell 32 4K USB-C Hub Monitor - P3223QE,619.99,619.99,0.0,Compliant
-Dell 22 Monitor - E2222HS,159.99,159.99,0.0,Compliant
-Dell 27 Monitor – E2723H,199.99,199.99,0.0,Compliant
-Dell 27 Curved Gaming Monitor – S2721HGF,249.99,249.99,0.0,Compliant
-Dell UltraSharp 43 4K USB-C Hub Monitor - U4323QE,1094.99,1094.99,0.0,Compliant
-Dell 32 USB-C Hub Monitor – P3223DE,579.99,579.99,0.0,Compliant
-Alienware 25 Gaming Monitor - AW2523HF,449.99,449.99,0.0,Compliant
-"Dell 14"" Portable Travel Monitor - P1424H",344.99,344.99,0.0,Compliant
-Dell 24 Monitor – S2421HN,139.99,139.99,0.0,Compliant
-Dell UltraSharp 32 6K Monitor - U3224KB,3319.99,3319.99,0.0,Compliant
-Dell 24 Monitor - E2424HS,179.99,179.99,0.0,Compliant
+Dell 27 Monitor - SE2722H,159.99,159.99,0.0,Compliant
+Dell 27 4K UHD USB-C Monitor - S2722QC,479.99,479.99,0.0,Compliant
 Dell 32 Curved FHD Monitor - S3222HN,219.99,219.99,0.0,Compliant
+Dell 27 Curved Gaming Monitor – S2721HGF,249.99,249.99,0.0,Compliant
+Dell 22 Monitor - E2222HS,159.99,159.99,0.0,Compliant
+Dell 27 4K USB-C Hub Monitor - P2723QE,649.99,649.99,0.0,Compliant
+Dell 32 USB-C Hub Monitor – P3223DE,579.99,579.99,0.0,Compliant
+Dell UltraSharp 32 4K Video Conferencing Monitor - U3223QZ,1464.99,1464.99,0.0,Compliant
+Dell 32 4K USB-C Hub Monitor - P3223QE,699.99,699.99,0.0,Compliant
+Dell 27 Monitor – E2723H,199.99,199.99,0.0,Compliant
+Dell 24 Monitor - SE2422H,139.99,139.99,0.0,Compliant
+"Dell 14"" Portable Travel Monitor - P1424H",369.99,369.99,0.0,Compliant
+Dell 24 Monitor - E2424HS,189.99,189.99,0.0,Compliant
+Dell UltraSharp 43 4K USB-C Hub Monitor - U4323QE,1094.99,1094.99,0.0,Compliant
+Alienware 25 Gaming Monitor - AW2523HF,499.99,499.99,0.0,Compliant
+Dell UltraSharp 32 6K Monitor - U3224KB,3319.99,3319.99,0.0,Compliant
+Dell 24 Monitor – S2421HN,139.99,139.99,0.0,Compliant
+Dell UltraSharp 32 4K USB-C Hub Monitor - U3223QE,1159.99,1179.0,1.638807231096819,Compliant
 Dell 27 Monitor - P2723D,469.99,479.97,2.1234494350943676,Compliant
 Dell UltraSharp 27 4K PremierColor Monitor: UP2720Q,1649.99,1704.97,3.3321414069176187,Compliant
 Dell UltraSharp 40 Curved WUHD Monitor - U4021QW,2399.99,2485.99,3.5833482639511,Compliant
-Dell 24 Video Conferencing Monitor - P2424HEB,559.99,581.99,3.9286415828854087,Compliant
 Dell 32 Curved 4K UHD Monitor - S3221QS,469.99,499.99,6.383114534351794,Compliant
-Dell UltraSharp 32 4K USB-C Hub Monitor - U3223QE,1089.99,1179.0,8.166129964495086,Compliant
+Dell 24 Video Conferencing Monitor - P2424HEB,559.99,596.99,6.607260843943642,Compliant
+Dell UltraSharp 27 4K USB-C Hub Monitor - U2723QE,779.99,854.99,9.615507891126809,Compliant
 Dell 27 Monitor - S2725DS,299.99,329.99,10.000333344444815,Compliant
 Dell 65 4K Interactive Touch Monitor - P6524QT,4469.99,4949.41,10.725303636026034,Compliant
+Dell 27 Curved Gaming Monitor – S2722DGM,379.99,431.5,13.555619884733805,Compliant
 Dell 32 Curved Gaming Monitor – S3222DGM,479.99,549.99,14.583637159107482,Compliant
-Dell UltraSharp 27 4K USB-C Hub Monitor - U2723QE,729.99,878.02,20.278359977533935,Compliant
+Dell 27 Monitor - S2721HN,169.99,199.99,17.648096946879228,Compliant
 Dell 24 USB-C Hub Monitor - P2422HE,349.99,434.99,24.286408183090945,Compliant
-Dell 27 Monitor - SE2722H,119.99,149.99,25.00208350695893,Compliant
-Dell 24 Monitor - SE2422H,99.99,124.99,25.002500250025005,Compliant
 Dell 22 Monitor – E2223HN,134.99,169.99,25.92784650714868,Compliant
 Dell 27 Gaming Monitor - G2724D,349.99,449.99,28.572244921283463,Compliant
-Dell 27 Curved Gaming Monitor – S2722DGM,329.99,431.5,30.761538228431164,Compliant
-Dell 27 Monitor - S2721HN,139.99,199.99,42.86020430030717,Compliant
-Dell 27 4K UHD Monitor - S2721QS,299.99,599.0,99.67332244408146,Compliant
-Dell 27 Monitor - S2725H,149.99,299.99,100.00666711114074,Compliant
+Dell 27 4K UHD Monitor - S2721QS,349.99,599.0,71.14774707848795,Compliant
