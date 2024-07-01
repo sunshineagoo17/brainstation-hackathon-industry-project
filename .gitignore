@@ -41,6 +41,10 @@ bower_components/
 client/.env
 server/.env
 
+env
+client/env
+server/env
+
 # MacOS files
 .DS_Store
 
@@ -130,4 +134,4 @@ build/Release
 # Ignore package-lock.json in root, client, and server folders
 /package-lock.json
 /client/package-lock.json
-/server/package-lock.json
+/server/package-lock.jsonenv
